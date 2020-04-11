@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
 from django.urls import reverse_lazy
 
 LOGIN_URL = reverse_lazy("AuthSystem:auth")
@@ -23,10 +24,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-cmp2qdfv5p$h$g+rynwye#@xy_pll5zcz*cl*!d*_1+vvbbpl'
+#SECRET_KEY = '-cmp2qdfv5p$h$g+rynwye#@xy_pll5zcz*cl*!d*_1+vvbbpl'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '-cmp2qdfv5p$h$g+rynwye#@xy_pll5zcz*cl*!d*_1+vvbbpl')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = ['192.168.43.150', 'localhost']
 
@@ -126,3 +128,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
