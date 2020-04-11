@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Authentication page{% endblock %}
+
+{% block content %}
+<h1>Log in to a registered account</h1>
+
+{% if not user.is_autheticated %}
+<form method="post" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <div class="row"><button type="submit" class="btn waves-effect waves-light green lighten-1 col s3">Log in</button></div>
+</form>
+{% else %}
+<p>You have already logged in. <a href="{% url "AuthSystem:logout" %}" >Log out</a></p>
+{% endif %}
+
+<p>Haven't account? <a href="{% url "AuthSystem:reg" %}?next={{ next_ }}">Register</a></p>
+
+{% endblock %}

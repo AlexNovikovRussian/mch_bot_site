@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Adding MOS.RU information page{% endblock %}
+
+{% block content %}
+
+<h1>Add MOS.RU information to your account</h1>
+
+{% if user.is_authenticated %}
+
+<form method="post" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{next}}"/>
+    <input type="submit" value="Add"/>
+</form>
+
+{% else %}
+<p>You are not logged in. <a href="{% url "AuthSystem:auth" %}">Log in</a></p>
+{% endif %}
+
+{% endblock %}

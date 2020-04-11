@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Info about account{% endblock %}
+
+{% block content %}
+
+<h1>Info about @{{ user_.username }}</h1>
+
+{% if mosuser_exist %}
+
+<p>This account has MOS.RU information</p>
+
+{% else %}
+
+<p>This account hasn't MOS.RU information</p>
+
+{% endif %}
+
+{% if user_.id == user.id %}
+
+<p>you logged in as this user</p>
+
+{% if mosuser_exist %}
+<p>Mos.ru login: {{ mosuser.mosLogin }}</p>
+<p>Mos.ru password: {{ passlets }}</p>
+<a href="{% url "AuthSystem:edit_mosru" %}">Edit them</a>
+{% else %}
+<a href="{% url "AuthSystem:add_mosru" %}">Add them</a>
+{% endif %}
+
+{% endif %}
+
+
+{% endblock %}
