@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '-cmp2qdfv5p$h$g+rynwye#@xy_pll
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['192.168.43.150', 'localhost']
+ALLOWED_HOSTS = ['192.168.43.150', 'localhost', 'radiant-wave-28885.herokuapp.com']
 
 
 # Application definition
