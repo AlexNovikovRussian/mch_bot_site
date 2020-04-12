@@ -147,4 +147,8 @@ def logout(request):
 def addvk(request):
     return render(request, 'addvk.html')
 
+@login_required
+def vkadd(request):
+    return HttpResponse(str(request.GET))
+
     
