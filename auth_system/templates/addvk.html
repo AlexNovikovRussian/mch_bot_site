@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Add VK user{% endblock %}
+
+{% block content %}
+<h1>Add VK user to your account</h1>
+
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?167"></script>
+<script type="text/javascript">
+  VK.init({apiId: 7091558});
+</script>
+
+<!-- VK Widget -->
+<div id="vk_auth"></div>
+<script type="text/javascript">
+  VK.Widgets.Auth("vk_auth", {"width":250,"authUrl":"/auth/vkadd"});
+</script>
+
+{% endblock %}

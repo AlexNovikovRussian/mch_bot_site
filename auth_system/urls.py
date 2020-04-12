@@ -9,5 +9,7 @@ urlpatterns = [
     path('detail/<int:user_id>', views.detail, name="detail"),
     path('edit_mosru/', views.edit_mosru, name="edit_mosru"),
     path('dashboard/', views.dashboard, name="dashboard"),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('addvk/', views.addvk, name='addvk'),
+    pth('vkadd/', views.vkadd, name='vkadd')
 ]

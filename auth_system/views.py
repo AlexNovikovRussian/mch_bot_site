@@ -143,4 +143,8 @@ def logout(request):
     lout(request)
     return render(request, 'logout.html')
 
+@login_required
+def addvk(request):
+    return render(request, 'addvk.html')
+
     
