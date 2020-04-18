@@ -1,8 +1,5 @@
-from django.forms import ModelForm
+from django import forms
 
-from auth_system.models import MosUser
-
-class MosRuForm (ModelForm):
-    class Meta:
-        model = MosUser
-        fields = ('mosLogin', 'mosPassword')
+class MosRuForm (forms.Form):
+    mosLogin = forms.CharField(max_length=100, label="Enter your Mos.Ru login", )
+    mosPassword = forms.CharField(max_length=100, label="Enter your Mos.Ru password")

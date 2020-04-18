@@ -11,6 +11,7 @@
 <form method="post" class="post-form">{% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{next}}"/>
+    <input type="hidden" name="vkId" value="{{ request.GET.vkId }}">
     <input type="submit" value="Add"/>
 </form>
 

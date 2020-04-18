@@ -1,3 +1,4 @@
 *.bak
 *.sqlite3
 command
+chromedriver.exe

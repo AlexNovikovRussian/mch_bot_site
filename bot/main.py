@@ -12,8 +12,8 @@ import psycopg2
 import os
 from urllib.parse import urlparse
 from psycopg2.extras import RealDictCursor
+import threading
 
-dr = webdriver.Chrome()
 token = env["VK_TOKEN"]
 
 vk = vk_api.VkApi(token=token)
@@ -38,11 +38,12 @@ def send_message(id, message):
     print("send "+message)
     vk.method('messages.send', {'user_id': id, 'message': message, "v":'5.69'})
 
-for event in longpoll.listen():
+def reactions(event):
     if event.type == VkEventType.MESSAGE_NEW:
         if event.to_me and event.from_user:
             request = event.text
             if(request == "/get"):
+                dr = webdriver.Chrome()
                 uid = event.user_id
                 cursor.execute("SELECT * FROM auth_system_mosuser")
                 all_users = cursor.fetchall()
@@ -80,7 +81,7 @@ for event in longpoll.listen():
                     dr.find_element_by_id('password').send_keys(mosPassword)
                     dr.find_element_by_id('bind').submit()
 
-                    sleep(10)
+                    sleep(15)
 
                     bs = BS(dr.page_source, "html.parser")
 
@@ -99,3 +100,5 @@ for event in longpoll.listen():
             else:
                 send_message(event.user_id, "Ты ввёл что-то не то! Попробуй ещё раз.")
 
+for event in longpoll.listen():
+    threading.Thread(target=reactions, args=(event,)).start()

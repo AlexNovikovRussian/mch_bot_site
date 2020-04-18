@@ -22,7 +22,6 @@
 
 {% if mosuser_exist %}
 <p>Mos.ru login: {{ mosuser.mosLogin }}</p>
-<p>Mos.ru password: {{ passlets }}</p>
 <a href="{% url "AuthSystem:edit_mosru" %}">Edit them</a>
 {% else %}
 <a href="{% url "AuthSystem:add_mosru" %}">Add them</a>

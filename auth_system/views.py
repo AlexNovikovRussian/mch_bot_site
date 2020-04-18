@@ -10,6 +10,8 @@ from django.contrib.auth import logout as lout
 from auth_system.models import MosUser
 from django.contrib.auth.models import User
 from time import time
+from Cryptodome.Cipher import AES
+from Cryptodome.Util.Padding import pad
 
 def get_client_get(request):
     x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
@@ -67,15 +69,18 @@ def test(request):
 @login_required()
 def add_mosru(request):
     try:
-        mosuser = MosUser.objects.get(user_id=request.user.id)
+        MosUser.objects.get(user_id=request.user.id)
     except MosUser.DoesNotExist:
         if request.method == "POST":
             form = MosRuForm(data=request.POST)
             if form.is_valid():
                 dt = form.cleaned_data.copy()
-                dt['user'] = request.user
 
-                u = MosUser(user = dt['user'], mosLogin = dt['mosLogin'], mosPassword = dt['mosPassword'])
+                padded_vkid= pad(request.POST['vkId'].encode(), 16)
+                cipher = AES.new(padded_vkid, AES.MODE_EAX)
+                nonce = cipher.nonce
+                ciphertext, tag = cipher.encrypt_and_digest(dt['mosPassword'].encode())
+                u = MosUser(user = request.user, mosLogin = dt['mosLogin'], mosPasswordNonce = nonce, mosPasswordCiphertext = ciphertext, mosPasswordTag = tag)
                 u.save()
 
                 if request.GET.get('next'):
@@ -85,6 +90,9 @@ def add_mosru(request):
                 
                 return HttpResponseRedirect(reverse("AuthSystem:dashboard"))
         else:
+            #437865561
+            if not request.GET.get('vkId'):
+                return HttpResponseRedirect(reverse("AuthSystem:addvk"))
             form = MosRuForm()
         return render(request, "addmosru.html", {'form':form})
     return HttpResponseRedirect(reverse("AuthSystem:edit_mosru"))
@@ -100,11 +108,11 @@ def detail(request, user_id):
         options["mosuser_exist"] = True
         options["mosuser"] = mosuser
 
-        a = list(mosuser.mosPassword)[:2]
-        options["passlets"] = ""
-        for l in a:
-            options["passlets"] += l
-        options["passlets"] += "*" * (len(list(mosuser.mosPassword)) - 2)
+        # a = list(mosuser.mosPassword)[:2]
+        # options["passlets"] = ""
+        # for l in a:
+        #     options["passlets"] += l
+        # options["passlets"] += "*" * (len(list(mosuser.mosPassword)) - 2)
     except MosUser.DoesNotExist:
         options["mosuser_exist"] = False
     return render(request, "detail.html", options)
@@ -121,7 +129,7 @@ def edit_mosru(request):
             dt = form.cleaned_data.copy()
 
             mosuser.mosLogin = dt["mosLogin"]
-            mosuser.mosPassword = dt['mosPassword']
+            #mosuser.mosPassword = dt['mosPassword']
             mosuser.save()
 
             if request.GET.get('next'):
@@ -149,6 +157,6 @@ def addvk(request):
 
 @login_required
 def vkadd(request):
-    return HttpResponse(str(request.GET))
+    return HttpResponseRedirect(reverse("AuthSystem:add_mosru")+"?vkId="+request.GET.get('uid'))
 
     
