@@ -19,3 +19,7 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+#logout_url{
+  display: none;
+}

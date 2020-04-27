@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}{% endblock %}</title>
     <link type="text/css" rel="stylesheet" href="{% static "css/materialize.min.css" %}"  media="screen,projection">
-    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">+
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}?{% now "U" %}">
+    <link rel="stylesheet" href="{% static "css/sweetalert2.min.css" %}">
+
     <meta name="google-site-verification" content="shP1rqdUwoEJKV8PtNLeSeOTR3peeVMbqUWZXqOJ8sc" />
 </head>
 <body>
+
+    <span id="logout_url">{% url "AuthSystem:logout" %}</span>
     
     <nav>
         <div class="nav-wrapper green">
@@ -25,15 +30,13 @@
             </ul>
             <ul id="user_dropdown" class="dropdown-content">
                 <li><a href="{% url "AuthSystem:dashboard" %}">Profile</a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
+                <div class="divider"></div>
+                <li><a href="javascript:void(0)" class="logout">Logout</a></li>
             </ul>
             <ul class="side-nav" id="mobile">
-                <li><a href="">A</a></li>
-                <li><a href="">B</a></li>
-                <li><a href="">C</a></li>
-                <li><a href="">D</a></li>
+                <li><a href="{% url "AuthSystem:dashboard" %}">Profile</a></li>
+                <li><div class="divider"></div></li>
+                <li><a href="javascript:void(0)" class="logout">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -44,6 +47,7 @@
     </div>
     <script type="text/javascript" src="{% static "js/jquery-3.4.0.js" %}"></script>
     <script type="text/javascript" src="{% static "js/materialize.min.js" %}"></script>
-    <script src="{% static "js/script.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/script.js" %}?{% now "U" %}" type="text/javascript"></script>
+    <script src="{% static "js/sweetalert2.all.min.js" %}"></script>
 </body>
 </html>
