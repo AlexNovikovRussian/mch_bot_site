@@ -4,7 +4,7 @@ gunicorn==20.0.4
 psycopg2==2.8.5
 whitenoise==5.0.1
 six==1.13.0
-urllib3==1.25.7
+urllib3==1.26.5
 pycryptodomex==3.9.7
 beautifulsoup4==4.8.2
 bs4==0.0.1
